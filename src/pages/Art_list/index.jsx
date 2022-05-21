@@ -1,29 +1,54 @@
-import React from 'react'
-import './index.css'
+import React, { useEffect, useState } from "react";
+import "./index.css";
+import { useAuth } from "../../context/auth-context";
+import { Form, Select ,Pagination} from "antd";
+import { httpCateList } from "../../untils/http";
 function List() {
+  const { CateList, setCateList } = useAuth();
+  const { filterList, setfilterList } = useState(CateList);
+  useEffect(() => {
+    httpCateList().then((CateList) => setCateList(CateList));
+  }, []);
+  const changeList = () => {};
   return (
     // <!-- 卡片区域 -->
     <div className="layui-card">
       <div className="layui-card-header">文章列表</div>
       <div className="layui-card-body">
         {/* <!-- 筛选区域 --> */}
-        <form className="layui-form" id="form-search">
+        <Form
+          className="layui-form"
+          id="form-search"
+          onClick={(e) => e.preventDefault()}
+        >
           <div className="layui-form-item layui-inline">
-            <select name="cate_id"></select>
+            <Form.Item>
+              <Select name="cate_id" style={{ width: "200px" }}>
+                {CateList?.map((item) => {
+                  return (
+                    <Select.Option value={item.name} key={item.Id}>
+                      {item.name}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
           </div>
           <div className="layui-form-item layui-inline">
-            <select name="state">
-              <option value="">所有状态</option>
-              <option value="已发布">已发布</option>
-              <option value="草稿">草稿</option>
-            </select>
+            <Form.Item>
+              <Select name="state" style={{ width: "200px" }}>
+                <Select.Option value="">所有状态</Select.Option>
+                <Select.Option value="已发布">已发布</Select.Option>
+                <Select.Option value="草稿">草稿</Select.Option>
+              </Select>
+            </Form.Item>
           </div>
           <div className="layui-form-item layui-inline">
-            <button className="layui-btn" lay-filter="formDemo">
+            <button className="layui-btn" onClick={changeList}>
               筛选
             </button>
           </div>
-        </form>
+        </Form>
         {/* <!-- 列表区域 --> */}
         <table className="layui-table">
           <colgroup>
@@ -42,14 +67,35 @@ function List() {
               <th>操作</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr>
+              <td>11111</td>
+              <td>最新</td>
+              <td>2022-05-21 21:00:31.404</td>
+              <td>已发布</td>
+              <td>
+                <button type="button" className="layui-btn layui-btn-xs">
+                  编辑
+                </button>
+                <button
+                  type="button"
+                  className="layui-btn layui-btn-danger layui-btn-xs btn-delete"
+                  data-id="6127"
+                >
+                  删除
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
         {/* <!-- 分页区域 --> */}
-        <div id="pageBox"></div>
+        <div id="pageBox">
+        <Pagination size="small" total={50} showSizeChanger showQuickJumper />
+        </div>
       </div>
     </div>
-  // <!-- Code injected by live-server -->
-  )
+    // <!-- Code injected by live-server -->
+  );
 }
 
-export default List
+export default List;

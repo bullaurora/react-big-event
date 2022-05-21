@@ -1,0 +1,23 @@
+.infoName{
+    width: 500px;
+    height: 200px;
+    background-color:#fff;
+    padding: 20px;
+}
+.topinput{
+    position: absolute;
+    left:3px;
+    width:350px !important;
+}
+.ant-form-item-required::before{
+    display: none;
+}
+.infoBody{
+    background-color: #ccc;
+    width: 100%;
+    height: 100%;
+    padding:30px;
+}
+.ant-form-horizontal div:first-child{
+    margin-left: 10px;
+}

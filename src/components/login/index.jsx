@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./index.css";
 import {useAuth} from "../../context/auth-context"
+import { message } from "antd";
 
 
 
@@ -12,13 +13,14 @@ function Login() {
   const regNameRef = useRef();
   const regPwdRefOne = useRef();
   const regPwdRefTwo = useRef();
-  const {login,register,setUser} = useAuth()
+  const {login,register} = useAuth()
 
 
   function regHandler() {
     const username = regNameRef.current.value;
     const password1 = regPwdRefOne.current.value;
     const password = regPwdRefTwo.current.value;
+    if (password1!==password) return message.info('两次输入的密码不一致') 
     const data = { username, password };
     register(data)
   }

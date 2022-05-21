@@ -1,6 +1,7 @@
 import React from 'react'
 import './index.css'
   // <!-- 卡片区域 --> */}
+import MyEditor from './MyEditor'
 function Pub() {
   return (
   
@@ -80,8 +81,9 @@ function Pub() {
           </div>
         </form>
       </div>
+      <MyEditor />
     </div>
-
+   
   )
 }
 

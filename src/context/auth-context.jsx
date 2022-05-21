@@ -16,13 +16,15 @@ const AuthContext = React.createContext()
 
 export const AuthProvider =({children})=>{
     const [user,setUser] = useState(null)
+    const [CateList, setCateList] = useState(null);
     const login = (form)=>auth.login(form).then(data=>{setUser(data)})
     const register = (form)=>auth.register(form).then(user=>setUser(user))
     const logout = ()=>auth.logout().then(()=>setUser(null))
+    const updateUser = ()=>bootstrapUser().then(user=>setUser({...user}))
     useEffect(()=>{
-        bootstrapUser().then(user=>setUser(user))
+        updateUser()
     },[])
-    return <AuthContext.Provider children={children} value={{user,login,register,logout}}/>
+    return <AuthContext.Provider children={children} value={{user,login,register,logout,updateUser,CateList, setCateList}}/>
 }
 
 export const useAuth = ()=>{

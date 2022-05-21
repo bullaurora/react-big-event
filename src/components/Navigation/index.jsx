@@ -52,10 +52,10 @@ const Navigation = () => {
         navigate("/pub");
         break;
       case '5':
-        navigate("/avatar");
+        navigate("/info");
         break;
       case '6':
-        navigate("/info");
+        navigate("/avatar");
         break;
       case '7':
         navigate("/pwd");
