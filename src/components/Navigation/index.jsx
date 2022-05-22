@@ -37,7 +37,6 @@ const items = [
 const Navigation = () => {
   let navigate = useNavigate();
   function goTo({ key }) {
-    console.log(key);
     switch (key) {
       case '1':
         navigate("/dashboard");

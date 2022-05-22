@@ -43,10 +43,10 @@ function Info() {
             <Input placeholder={user.email}/>
           </Form.Item>
           <Form.Item>
-            <Button htmlType={"submit"} type={"primary"}>
+            <Button htmlType={"submit"} type={"primary"} style={{position:'relative',left:280}}>
               提交修改
             </Button>
-            <Button  onClick={doRefresh} >
+            <Button  onClick={doRefresh} style={{position:'relative',left:300}}>
               重置
             </Button>
           </Form.Item>

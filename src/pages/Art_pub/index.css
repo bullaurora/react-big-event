@@ -1,28 +1,14 @@
-/* 封面容器的样式 */
-.cover-box {
-    display: flex;
-  }
-  
-  /* 左侧裁剪区域的样式 */
-  .cover-left {
-    width: 400px;
-    height: 280px;
-    overflow: hidden;
-    margin-right: 20px;
-  }
-  
-  /* 右侧盒子的样式 */
-  .cover-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* 预览区域的样式 */
-  .img-preview {
-    width: 200px;
-    height: 140px;
-    background-color: #ccc;
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
+.layui-body .pubList  {
+  padding:50px;
+  background-color:transparent !important;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items:stretch;
+}
+.layui-body .pubList #file{
+  display:none;
+}
+.layui-body .pubList .backbody{
+  background-color:transparent !important;
+}

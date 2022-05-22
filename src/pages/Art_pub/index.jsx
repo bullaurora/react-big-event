@@ -1,90 +1,73 @@
-import React from 'react'
+import { Mentions, Form, Button, Select, Input } from "antd";
+import React, { useState } from "react";
+import { useAuth } from "../../context/auth-context";
+import MyEditor from "./MyEditor";
+import Pic from '../../components/Pic'
+import {addArticle} from "../../untils/http"
+import { useNavigate } from "react-router-dom";
 import './index.css'
-  // <!-- 卡片区域 --> */}
-import MyEditor from './MyEditor'
-function Pub() {
+const Pub = () => {
+  const [text, setText] = useState("");
+  const { CateList } = useAuth();
+  const [form] = Form.useForm();
+  const [pic,setPic] = useState(null)
+  const [state,setState] = useState('草稿')
+  let navigate = useNavigate();
+  const onCaoGao = () => {
+    setState('草稿')
+  };
+  const onCaogaofalse = ()=>{
+    setState('已发布')
+  }
+  const onFinish = async () => {
+    try {
+      const values = await form.validateFields();
+      addArticle({state,cover_img:pic,content:text,...values}).then(()=>navigate("/list"))
+      
+    } catch (errInfo) {
+      console.log("Error:", errInfo);
+    }
+  };
+
   return (
-  
-    <div className="layui-card">
-      <div className="layui-card-header">写文章</div>
-      <div className="layui-card-body">
-        {/* <!-- 发布文章的表单 --> */}
-        <form className="layui-form">
-          {/* <!-- 第一行 --> */}
-          <div className="layui-form-item">
-            <label className="layui-form-label">文章标题</label>
-            <div className="layui-input-block">
-              <input
-                type="text"                          
-                placeholder="请输入标题"              
-                className="layui-input"
-              />
-            </div>
-          </div>
-          {/* <!-- 第二行 --> */}
-          <div className="layui-form-item">
-            <label className="layui-form-label">文章类别</label>
-            <div className="layui-input-block">
-              <select name="cate_id" ></select>
-            </div>
-          </div>
-          {/* <!-- 第三行 --> */}
-          <div className="layui-form-item">
-            {/* <!-- 左侧的 label --> */}
-            <label className="layui-form-label">文章内容</label>
-            {/* <!-- 为富文本编辑器外部的容器设置高度 --> */}
-            <div className="layui-input-block" >
-              {/* <!-- 重要：将来这个 textarea 会被初始化为富文本编辑器 --> */}
-              <textarea name="content"></textarea>
-            </div>
-          </div>
-          {/* <!-- 第四行 --> */}
-          <div className="layui-form-item">
-            {/* <!-- 左侧的 label --> */}
-            <label className="layui-form-label">文章封面</label>
-            {/* <!-- 选择封面区域 --> */}
-            <div className="layui-input-block cover-box">
-              {/* <!-- 左侧裁剪区域 --> */}
-              <div className="cover-left">
-                <img id="image" src="/assets/images/sample2.jpg" alt="" />
-              </div>
-              {/* <!-- 右侧预览区域和选择封面区域 --> */}
-              <div className="cover-right">
-                {/* <!-- 预览的区域 --> */}
-                <div className="img-preview"></div>
-                {/* <!-- 选择封面按钮 --> */}
-                <button
-                  type="button"
-                  className="layui-btn layui-btn-danger"
-                  id="btnChooseImage"
-                >
-                  选择封面
-                </button>
-                <input
-                  type="file"
-   
-
-                />
-              </div>
-            </div>
-          </div>
-          {/* <!-- 第五行 --> */}
-          <div className="layui-form-item">
-            <div className="layui-input-block">
-              <button className="layui-btn" >发布</button>
-              <button
-                className="layui-btn layui-btn-primary"
-              >
-                存为草稿
-              </button>
-            </div>
-          </div>
-        </form>
+    <div className='pubList'>
+      <h2>发布文章</h2>
+      <hr />
+       <Form form={form} layout="horizontal" onFinish={onFinish}>
+      <Form.Item name={"title"} label="文章标题" rules={[{ required: true }]}style={{position:'relative',left:-10}}>
+        <Input style={{ width: "1000px" }} />
+      </Form.Item>
+      <Form.Item name={"cate_id"} label="文章标题" rules={[{ required: true }]}>
+        <Select name="cate_id" style={{ width: "1000px" ,position:'relative',left:-15}}>
+          {CateList?.map((item) => {
+            return (
+              <Select.Option value={item.Id} key={item.Id} style={{ width: "1000px"}}>
+                {item.name}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
+      <Form.Item label="文章内容" >
+        <MyEditor text={text} setText={setText} />
+      </Form.Item >
+      <div style={{position:'relative',left:80}}>
+      <Pic  pic={pic} setPic={setPic} />
       </div>
-      <MyEditor />
+      <Form.Item
+      style={{position:'relative',left:500}}
+      >
+        <Button htmlType="submit" type="primary" onClick={onCaogaofalse}>
+          发布
+        </Button>
+        &nbsp;&nbsp;&nbsp;
+        <Button htmlType="submit" onClick={onCaoGao}>
+          存为草稿
+        </Button>
+      </Form.Item>
+    </Form>
     </div>
-   
-  )
-}
+  );
+};
 
-export default Pub
+export default Pub;

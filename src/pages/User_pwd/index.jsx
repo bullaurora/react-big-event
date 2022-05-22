@@ -17,33 +17,33 @@ function Info() {
     resetNameRef.current.resetFields();
   };
   return (
-    <div className="infoBody">
+    <div className="infoBody" id={'pwdbody'}>
       <h4>修改密码</h4>
       <hr />
       <div className="infoName">
         <Form onFinish={handleSubmit} ref={resetNameRef}>
           <Form.Item name={"oldPwd"} label="原密码" rules={[{ required: true }]}>
-            <Input.Password />
+            <Input.Password  style={{width:'354px',position:'relative',right:-21}}/>
           </Form.Item>
           <Form.Item
             name={"newPwd1"}
             label="新密码"
             rules={[{ required: true }]}
           >
-            <Input.Password />
+            <Input.Password  style={{width:'354px',position:'relative',right:-16}}/>
           </Form.Item>
           <Form.Item
             name={"newPwd"}
             label="请确认密码"
             rules={[{ required: true }]}
           >
-            <Input.Password />
+            <Input.Password style={{width:'354px',position:'relative',right:10}}/>
           </Form.Item>
           <Form.Item>
-            <Button htmlType={"submit"} type={"primary"}>
+            <Button htmlType={"submit"} type={"primary"} style={{position:'relative',left:290}}>
               提交修改
             </Button>
-            <Button  onClick={clearInput}>
+            <Button  onClick={clearInput} style={{position:'relative',left:300}}>
               重置
             </Button>
           </Form.Item>

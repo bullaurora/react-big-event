@@ -16,7 +16,6 @@ import "../../lib/main.css";
 import logo from "../../images/logo.png";
 function Main() {
   const { user,logout } = useAuth();
-  console.log(logout);
   const name = user?.nickname || user?.username||'null';
   return (
     <div className="layui-layout layui-layout-admin">

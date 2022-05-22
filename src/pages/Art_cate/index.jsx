@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { httpCateList } from "../../untils/http";
+import { httpCateList ,deleteCateList} from "../../untils/http";
 import ModalCate from "./ModalCate";
 import {useAuth} from "../../context/auth-context"
 function Cate() {
@@ -11,12 +11,17 @@ function Cate() {
   useEffect(() => {
     updateCateList()
   }, []);
+  const deleteCate = (id)=>{
+    return ()=>{
+      deleteCateList(id).then(()=>updateCateList())
+    }
+  }
   return (
     // <!-- 卡片区域 -->
     <div className="layui-card" id="cateId">
       <div className="layui-card-header">
         <span>文章类别管理</span>
-        <ModalCate updateCateList={updateCateList}/>
+        <ModalCate updateCateList={updateCateList} title={'增加分类'}/>
       </div>
       <div className="layui-card-body">
         <table className="layui-table">
@@ -32,24 +37,19 @@ function Cate() {
               <th>操作</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id={'catebody'}>
             {CateList?.map((item) => {
               return (
                 <tr key={item.Id}>
                   <td>{item.name}</td>
                   <td>{item.alias}</td>
                   <td>
-                    <button
-                      type="button"
-                      className="layui-btn layui-btn-xs btn-edit"
-                      data-id="1"
-                    >
-                      编辑
-                    </button>
+                  <ModalCate updateCateList={updateCateList} str={'修改'} item={item} style={{width:'50px',height:"20px"}} title={'修改分类'}/>
                     <button
                       type="button"
                       className="layui-btn layui-btn-danger layui-btn-xs btn-delete"
                       data-id="1"
+                      onClick={deleteCate(item.Id)}
                     >
                       删除
                     </button>

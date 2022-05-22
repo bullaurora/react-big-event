@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { useAuth } from "../../context/auth-context";
-import { Form, Select ,Pagination} from "antd";
-import { httpCateList } from "../../untils/http";
+import { Form, Select ,Pagination,Button,} from "antd";
+import { httpCateList,getArticleList,deleteArticleList } from "../../untils/http";
 function List() {
   const { CateList, setCateList } = useAuth();
-  const { filterList, setfilterList } = useState(CateList);
+  const [ filterList, setfilterList ] = useState(null);
+  const [ArticleList,setArticleList] = useState(null)
+  const [sql,setsql] = useState({pagenum:1,pagesize:20,cate_id:'',state:''})
   useEffect(() => {
     httpCateList().then((CateList) => setCateList(CateList));
+    getArticleList(sql).then((ArticleList) => {
+      setArticleList(ArticleList)
+      const arr = ArticleList.slice(0,2)  
+      setfilterList(arr)
+    })
   }, []);
-  const changeList = () => {};
+  const onFinish = (values) => {
+    getArticleList({pagenum:1,pagesize:2,...values}).then((ArticleList) => {   
+      setfilterList(ArticleList)
+    })
+  };
+  const getSize = (pagenum, pagesize)=>{
+    getArticleList({pagenum,pagesize,cate_id:'',state:''}).then((ArticleList) => {   
+      setfilterList(ArticleList)
+    })
+  }
+  const deleteArticle = (Id)=>{
+    return ()=>{
+      deleteArticleList(Id).then((ArticleList) => setfilterList(ArticleList))
+    }
+  }
   return (
     // <!-- 卡片区域 -->
     <div className="layui-card">
@@ -19,14 +40,15 @@ function List() {
         <Form
           className="layui-form"
           id="form-search"
-          onClick={(e) => e.preventDefault()}
+          // onClick={(e) => e.preventDefault()}
+          onFinish={onFinish}
         >
           <div className="layui-form-item layui-inline">
-            <Form.Item>
-              <Select name="cate_id" style={{ width: "200px" }}>
+            <Form.Item name="cate_id">
+              <Select  style={{ width: "200px" }}>
                 {CateList?.map((item) => {
                   return (
-                    <Select.Option value={item.name} key={item.Id}>
+                    <Select.Option value={item.ID} key={item.Id}>
                       {item.name}
                     </Select.Option>
                   );
@@ -35,18 +57,20 @@ function List() {
             </Form.Item>
           </div>
           <div className="layui-form-item layui-inline">
-            <Form.Item>
-              <Select name="state" style={{ width: "200px" }}>
-                <Select.Option value="">所有状态</Select.Option>
-                <Select.Option value="已发布">已发布</Select.Option>
-                <Select.Option value="草稿">草稿</Select.Option>
+            <Form.Item name={"state"} >
+              <Select  style={{ width: "200px" }}>
+                <Select.Option  value="">所有状态</Select.Option>
+                <Select.Option  value="已发布">已发布</Select.Option>
+                <Select.Option  value="草稿">草稿</Select.Option>
               </Select>
             </Form.Item>
           </div>
           <div className="layui-form-item layui-inline">
-            <button className="layui-btn" onClick={changeList}>
+          <Form.Item>
+            <Button htmlType={"submit"} type="primary" >
               筛选
-            </button>
+            </Button>
+            </Form.Item>
           </div>
         </Form>
         {/* <!-- 列表区域 --> */}
@@ -68,29 +92,36 @@ function List() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>11111</td>
-              <td>最新</td>
-              <td>2022-05-21 21:00:31.404</td>
-              <td>已发布</td>
-              <td>
-                <button type="button" className="layui-btn layui-btn-xs">
-                  编辑
-                </button>
-                <button
-                  type="button"
-                  className="layui-btn layui-btn-danger layui-btn-xs btn-delete"
-                  data-id="6127"
-                >
-                  删除
-                </button>
-              </td>
-            </tr>
+                {
+                  filterList?.map(item =>{
+                    return (
+                      <tr key={item.Id}>
+                      <td>{item.title}</td>
+                      <td>{item.cate_name}</td>
+                      <td>{item.pub_date}</td>
+                      <td>{item.state}</td>
+                      <td>
+                        <button type="button" className="layui-btn layui-btn-xs">
+                          编辑
+                        </button>
+                        <button
+                          type="button"
+                          className="layui-btn layui-btn-danger layui-btn-xs btn-delete"
+                          data-id="6127"
+                          onClick={deleteArticle(item.Id)}
+                        >
+                          删除
+                        </button>
+                      </td>
+                    </tr>
+                    )
+                  })
+                }
           </tbody>
         </table>
         {/* <!-- 分页区域 --> */}
         <div id="pageBox">
-        <Pagination size="small" total={50} showSizeChanger showQuickJumper />
+        <Pagination size="default"  defaultCurrent={1} defaultPageSize={2} total={ArticleList?.length} showSizeChanger={true} showQuickJumper={true} onChange={getSize} pageSizeOptions={[2,4,6,8]}/>
         </div>
       </div>
     </div>

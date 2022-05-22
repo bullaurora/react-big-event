@@ -1,28 +1,12 @@
-import React from "react";
-import { Editor, EditorState } from "draft-js";
-import "draft-js/dist/Draft.css";
+import React, { useState } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-export default function MyEditor() {
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
-  );
-
-  const editor = React.useRef(null);
-  function focusEditor() {
-    editor.current.focus();
-  }
+function MyComponent({text,setText}) {
+ 
 
   return (
-    <div
-      style={{ border: "1px solid black", minHeight: "6em", cursor: "text" }}
-      onClick={focusEditor}
-    >
-      <Editor
-        ref={editor}
-        editorState={editorState}
-        onChange={setEditorState}
-        placeholder="Write something!"
-      />
-    </div>
+    <ReactQuill theme="snow" value={text} onChange={setText} style={{ width: "1000px" ,height:'500px',position:'relative',left:0,backgroundColor:'#fff'}}/>
   );
 }
+export default MyComponent;
