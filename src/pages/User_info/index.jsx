@@ -24,23 +24,27 @@ function Info() {
       <h4>修改用户信息</h4>
       <hr />
       <div className="infoName">
-        <Form onFinish={handleSubmit} ref={resetNameRef}>
+        <Form onFinish={handleSubmit} ref={resetNameRef}  initialValues={{
+          'username':user.username,
+          'nickname':user.nickname,
+          'email':user.email,
+        }}>
           <Form.Item label="登录名称" rules={[{ required: true }]}>
-            <Input value={user.username} disabled={true}  className='topinput'/>
+            <Input placeholder={user.username} disabled={true}  className='topinput' name={"username"}/>
           </Form.Item>
           <Form.Item
             name={"nickname"}
             label="用户昵称"
             rules={[{ required: true }]}
           >
-            <Input placeholder={user.nickname}/>
+            <Input name={"nickname"}/>
           </Form.Item>
           <Form.Item
             name={"email"}
             label="用户邮箱"
             rules={[{ required: true, type: "email" }]}
           >
-            <Input placeholder={user.email}/>
+            <Input  name={"email"}/>
           </Form.Item>
           <Form.Item>
             <Button htmlType={"submit"} type={"primary"} style={{position:'relative',left:280}}>

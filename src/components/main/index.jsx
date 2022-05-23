@@ -1,9 +1,9 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Navigation from "../Navigation";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Person from "../Person";
 import { useAuth } from "../../context/auth-context";
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route,} from "react-router-dom"
 import Cate from "../../pages/Art_cate"
 import List from "../../pages/Art_list"
 import Pub from "../../pages/Art_pub"
@@ -15,8 +15,11 @@ import "./index.css";
 import "../../lib/main.css";
 import logo from "../../images/logo.png";
 function Main() {
-  const { user,logout } = useAuth();
+  const { user,logout,updateUser } = useAuth();
   const name = user?.nickname || user?.username||'null';
+  useEffect(()=>{
+    updateUser()
+},[])
   return (
     <div className="layui-layout layui-layout-admin">
       <div className="layui-header">

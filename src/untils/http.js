@@ -1,10 +1,10 @@
 import qs from 'qs'
 import axios from 'axios'
-import * as auth from '../context/auth-context'
 import {
     message
 } from 'antd'
 const baseUrl = 'http://www.liulongbin.top:3007'
+//登陆注册
 export const httpUserInfo = async (method, {
     token,
     nickname,
@@ -33,6 +33,7 @@ export const httpUserInfo = async (method, {
         const useInfo = res.data.data
         if (res.data.status === 0) {
             return useInfo
+            console.log(useInfo);
         } else {
             return Promise.reject(useInfo)
         }
@@ -101,7 +102,7 @@ export const httpAvatar = async ({
     })
 }
 
-//得到文章
+//得到分类
 
 export const httpCateList = async () => {
     const config = {
@@ -121,7 +122,7 @@ export const httpCateList = async () => {
         }
     })
 }
-//
+//增加文分类
 export const addCateList = async (data) => {
     const config = {
         url: baseUrl + "/my/article/addcates",
@@ -162,7 +163,7 @@ export const editCateList = async (data) => {
         }
     })
 }
-// 删除文章分类
+// 删除分类
 export const deleteCateList = async (id) => {
     const config = {
         url: baseUrl + `/my/article/deletecate/${id}`,
@@ -185,18 +186,8 @@ export const deleteCateList = async (id) => {
     })
 }
 
-// 删除文章分类
+// 得到文章
 export const getArticleList = async (data) => {
-    // const config = {
-    //     url: baseUrl + '/my/article/list',
-    //     method: 'GET',
-    //     data:qs.stringify(data) || '',
-    //     headers: {
-    //         Authorization: window.localStorage.getItem("token") || '',
-    //         "Content-Type": "application/x-www-form-urlencoded",
-    //     }
-    // }
-    // console.log(config);
     return axios.get(`${baseUrl}/my/article/list?${qs.stringify(data)}`,{
         headers: {
                     Authorization: window.localStorage.getItem("token") || '',

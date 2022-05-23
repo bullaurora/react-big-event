@@ -33,15 +33,15 @@ const Pub = () => {
     <div className='pubList'>
       <h2>发布文章</h2>
       <hr />
-       <Form form={form} layout="horizontal" onFinish={onFinish}>
+       <Form form={form} layout="horizontal" onFinish={onFinish} initialValues={{'cate_id':CateList[0].name}}>
       <Form.Item name={"title"} label="文章标题" rules={[{ required: true }]}style={{position:'relative',left:-10}}>
         <Input style={{ width: "1000px" }} />
       </Form.Item>
-      <Form.Item name={"cate_id"} label="文章标题" rules={[{ required: true }]}>
-        <Select name="cate_id" style={{ width: "1000px" ,position:'relative',left:-15}}>
+      <Form.Item name={"cate_id"} label="文章标题" rules={[{ required: true }]} >
+        <Select name="cate_id" style={{ width: "1000px" ,position:'relative',left:-15}} >
           {CateList?.map((item) => {
             return (
-              <Select.Option value={item.Id} key={item.Id} style={{ width: "1000px"}}>
+              <Select.Option value={item.Id} key={item.Id} style={{ width: "1000px"}} >
                 {item.name}
               </Select.Option>
             );

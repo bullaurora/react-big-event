@@ -16,7 +16,7 @@ const AuthContext = React.createContext()
 
 export const AuthProvider =({children})=>{
     const [user,setUser] = useState(null)
-    const [CateList, setCateList] = useState(null);
+    const [CateList, setCateList] = useState([]);
     const login = (form)=>auth.login(form).then(data=>{setUser(data)})
     const register = (form)=>auth.register(form).then(user=>setUser(user))
     const logout = ()=>auth.logout().then(()=>setUser(null))

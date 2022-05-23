@@ -3,9 +3,6 @@ import "./index.css";
 import {useAuth} from "../../context/auth-context"
 import { message } from "antd";
 
-
-
-const baseUrl = "http://www.liulongbin.top:3007";
 function Login() {
   const [isLogin, setisLogin] = useState(true);
   const loginNameRef = useRef();

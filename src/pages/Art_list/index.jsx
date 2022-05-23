@@ -3,6 +3,7 @@ import "./index.css";
 import { useAuth } from "../../context/auth-context";
 import { Form, Select ,Pagination,Button,} from "antd";
 import { httpCateList,getArticleList,deleteArticleList } from "../../untils/http";
+import {useUpdateEffect} from '../../untils'
 function List() {
   const { CateList, setCateList } = useAuth();
   const [ filterList, setfilterList ] = useState(null);
@@ -17,20 +18,21 @@ function List() {
     })
   }, []);
   const onFinish = (values) => {
-    getArticleList({pagenum:1,pagesize:2,...values}).then((ArticleList) => {   
-      setfilterList(ArticleList)
-    })
+    setsql({pagenum:1,pagesize:2,...values})
   };
   const getSize = (pagenum, pagesize)=>{
-    getArticleList({pagenum,pagesize,cate_id:'',state:''}).then((ArticleList) => {   
-      setfilterList(ArticleList)
-    })
+    setsql({pagenum,pagesize,cate_id:'',state:''})
   }
   const deleteArticle = (Id)=>{
     return ()=>{
       deleteArticleList(Id).then((ArticleList) => setfilterList(ArticleList))
     }
   }
+  useUpdateEffect(()=>{
+    getArticleList(sql).then((ArticleList) => {   
+      setfilterList(ArticleList)
+    })
+  },[sql])
   return (
     // <!-- 卡片区域 -->
     <div className="layui-card">
@@ -40,12 +42,12 @@ function List() {
         <Form
           className="layui-form"
           id="form-search"
-          // onClick={(e) => e.preventDefault()}
           onFinish={onFinish}
+          initialValues={{state:'所有状态',cate_id:CateList[0]?.name}}
         >
           <div className="layui-form-item layui-inline">
-            <Form.Item name="cate_id">
-              <Select  style={{ width: "200px" }}>
+            <Form.Item name="cate_id" >
+              <Select name="cate_id" style={{ width: "200px" }} defaultActiveFirstOption>
                 {CateList?.map((item) => {
                   return (
                     <Select.Option value={item.ID} key={item.Id}>
@@ -58,7 +60,7 @@ function List() {
           </div>
           <div className="layui-form-item layui-inline">
             <Form.Item name={"state"} >
-              <Select  style={{ width: "200px" }}>
+              <Select  style={{ width: "200px" }} name={"state"}>
                 <Select.Option  value="">所有状态</Select.Option>
                 <Select.Option  value="已发布">已发布</Select.Option>
                 <Select.Option  value="草稿">草稿</Select.Option>

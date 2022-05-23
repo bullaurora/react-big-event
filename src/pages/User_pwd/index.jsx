@@ -23,21 +23,21 @@ function Info() {
       <div className="infoName">
         <Form onFinish={handleSubmit} ref={resetNameRef}>
           <Form.Item name={"oldPwd"} label="原密码" rules={[{ required: true }]}>
-            <Input.Password  style={{width:'354px',position:'relative',right:-21}}/>
+            <Input.Password  style={{width:'354px',position:'relative',right:-21}} autoComplete="true"/>
           </Form.Item>
           <Form.Item
             name={"newPwd1"}
             label="新密码"
             rules={[{ required: true }]}
           >
-            <Input.Password  style={{width:'354px',position:'relative',right:-16}}/>
+            <Input.Password  style={{width:'354px',position:'relative',right:-16}} autoComplete="true"/>
           </Form.Item>
           <Form.Item
             name={"newPwd"}
             label="请确认密码"
             rules={[{ required: true }]}
           >
-            <Input.Password style={{width:'354px',position:'relative',right:10}}/>
+            <Input.Password style={{width:'354px',position:'relative',right:10}} autoComplete="true"/>
           </Form.Item>
           <Form.Item>
             <Button htmlType={"submit"} type={"primary"} style={{position:'relative',left:290}}>

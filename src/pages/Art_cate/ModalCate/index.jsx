@@ -5,7 +5,7 @@ import {addCateList,editCateList} from '../../../untils/http'
 const ModalCate = ({updateCateList,str,item,title}) => {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState("Content of the modal");
+  const [, setModalText] = React.useState("Content of the modal");
   const ModalForm = useRef();
   const showModal = () => {
     setVisible(true);
@@ -32,7 +32,7 @@ const ModalCate = ({updateCateList,str,item,title}) => {
     addCateList(value).then(() => updateCateList())
   }
 }
-
+  
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -45,20 +45,20 @@ const ModalCate = ({updateCateList,str,item,title}) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <Form onFinish={getValue} ref={ModalForm}>
+        <Form onFinish={getValue} ref={ModalForm}  initialValues={{"name": item?item.name:'', "alias": item?item.alias:''}} >
           <Form.Item
             name={"name"}
             label="分类名称"
             rules={[{ required: true }]}
           >
-            <Input placeholder  ={item?item.name:''}/>
+            <Input  name={"name"}/>
           </Form.Item>
           <Form.Item
             name={"alias"}
             label="分类别名"
             rules={[{ required: true }]}
           >
-            <Input placeholder  ={item?item.alias:''}/>
+            <Input name={"alias"} />
           </Form.Item>
         </Form>
       </Modal>
